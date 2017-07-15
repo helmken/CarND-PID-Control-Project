@@ -1,46 +1,58 @@
 #ifndef PID_H
 #define PID_H
 
-class PID {
+class PID
+{
+private:
+    /*
+    * Errors
+    */
+    double m_errorP;
+    double m_errorI;
+    double m_errorD;
+
+    /*
+    * Coefficients
+    */
+    const double m_coeffP;
+    const double m_coeffI;
+    const double m_coeffD;
+
+    /**
+     * keep track of last error
+     */
+    double m_lastCTE;
+
+    /*
+    * Update the PID error variables given cross track error.
+    */
+    void UpdateError(double cte);
+
+
 public:
-  /*
-  * Errors
-  */
-  double p_error;
-  double i_error;
-  double d_error;
+    /*
+    * Constructor, default values taken from lesson
+    */
+    // tuning for max speed 30
+    //PID(const double p = 0.2, const double i = 0.004, const double d = 3.0);
+    PID(const double p = 0.2, const double i = 0.0001, const double d = 3.0);
 
-  /*
-  * Coefficients
-  */ 
-  double Kp;
-  double Ki;
-  double Kd;
+    /*
+    * Destructor.
+    */
+    virtual ~PID();
 
-  /*
-  * Constructor
-  */
-  PID();
+    /**
+     * Calculate steering angle based on current PID error values,
+     * range of steering angle should be [-1, 1]
+     */
+    double CalcSteeringAngle(const double cte);
 
-  /*
-  * Destructor.
-  */
-  virtual ~PID();
+    /**
+     * limit speed to 30
+     */   
+    double CalcThrottle(const double speed);
 
-  /*
-  * Initialize PID.
-  */
-  void Init(double Kp, double Ki, double Kd);
-
-  /*
-  * Update the PID error variables given cross track error.
-  */
-  void UpdateError(double cte);
-
-  /*
-  * Calculate the total PID error.
-  */
-  double TotalError();
 };
 
-#endif /* PID_H */
+#endif // PID_H
