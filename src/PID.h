@@ -35,7 +35,8 @@ public:
     */
     // tuning for max speed 30
     //PID(const double p = 0.2, const double i = 0.004, const double d = 3.0);
-    PID(const double p = 0.2, const double i = 0.0001, const double d = 3.0);
+    PID(const double p = 0.1, const double i = 0.001, const double d = 15.0);
+
 
     /*
     * Destructor.
